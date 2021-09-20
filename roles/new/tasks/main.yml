@@ -1,0 +1,102 @@
+---
+- name: Define convenience variables.
+  set_fact:
+    _dcc_base58_chars:
+      '1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,J,K,L,M,N,P,Q,R,S,T,U,V,W,X,Y,Z,a,b,c,d,e,f,g,h,i,j,k,m,n,o,p,q,r,s,t,u,v,w,x,y,z'
+
+- name: Generate random wallet seed.
+  set_fact:
+    _dcc_wallet_seed:
+      "{{ lookup('password', '/dev/null chars=_dcc_base58_chars length=60') }}"
+
+- name: Set wallet seed value.
+  set_fact:
+    _dcc_wallet_seed: '{{ dcc_wallet_seed }}'
+  when:
+    - dcc_wallet_seed is defined
+    - dcc_wallet_seed | length > 0
+
+- name: Clone Waves repository.
+  git:
+    repo: '{{ dcc_repository }}'
+    dest: /tmp/DCC
+    single_branch: true
+    version: '{{ dcc_repository_branch }}'
+  when:
+    - not ansible_check_mode
+    - dcc_docker_image_build | bool
+  changed_when: "'molecule-idempotence-notest' not in ansible_skip_tags"
+
+- name: Compile Docker image.
+  command: ./build-with-docker.sh
+  args:
+    chdir: /tmp/DCC
+  when:
+    - not ansible_check_mode
+    - dcc_docker_image_build | bool
+  changed_when: "'molecule-idempotence-notest' not in ansible_skip_tags"
+
+- name: Build Docker image.
+  docker_image:
+    build:
+      path: /tmp/DCC/docker
+    name: '{{ dcc_docker_image_name }}'
+    source: build
+  when:
+    - not ansible_check_mode
+    - dcc_docker_image_build | bool
+
+- name: Pull Docker image.
+  docker_image:
+    name: '{{ dcc_docker_image_name }}'
+    source: pull
+  when:
+    - not ansible_check_mode
+    - dcc_docker_image_build | bool == false
+
+- name: Create directories for Docker volumes (waves-config, waves-data).
+  file:
+    path: '{{ item }}'
+    state: directory
+    mode: "u=rw,g=r,o=r"
+  loop:
+    - '{{ dcc_docker_volumes_path }}/waves-config'
+    - '{{ dcc_docker_volumes_path }}/waves-data'
+  when: not ansible_check_mode
+  changed_when: "'molecule-idempotence-notest' not in ansible_skip_tags"
+
+- name: Create waves.conf file.
+  template:
+    src: '{{ dcc_config_template }}'
+    dest: '{{ dcc_docker_volumes_path }}/waves-config/waves.conf'
+    force: true
+    owner: root
+    group: root
+    mode: 0644
+  changed_when: "'molecule-idempotence-notest' not in ansible_skip_tags"
+  when: not ansible_check_mode
+
+- name: Run Docker container.
+  docker_container:
+    name: '{{ dcc_node_name }}'
+    image: '{{ dcc_docker_image_name }}'
+    state: started
+    restart_policy: always
+    env:
+      WAVES_WALLET_SEED: '{{ _dcc_wallet_seed }}'
+      WAVES_WALLET_PASSWORD: '{{ dcc_wallet_password }}'
+      WAVES_WALLET_LOG_LEVEL: '{{ dcc_log_level }}'
+      WAVES_HEAP_SIZE: '{{ dcc_heap_size }}'
+      WAVES_NETWORK: '{{ dcc_network }}'
+      JAVA_OPTS: '{{ dcc_java_opts }}'
+    exposed_ports:
+      - '{{ dcc_port }}'
+      - '{{ dcc_port_api }}'
+    published_ports:
+      - '{{ dcc_port }}:{{ dcc_port }}'
+      - '{{ dcc_port_api }}:{{ dcc_port_api }}'
+    volumes:
+      - '{{ dcc_docker_volumes_path }}/waves-config:/etc/decentralchain:rw'
+      - '{{ dcc_docker_volumes_path }}/waves-data/var/lib/decentralchain:rw'
+  changed_when: "'molecule-idempotence-notest' not in ansible_skip_tags"
+  when: not ansible_check_mode

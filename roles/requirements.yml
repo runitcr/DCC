@@ -1,0 +1,7 @@
+---
+- geerlingguy.docker
+- geerlingguy.pip
+- geerlingguy.security
+- name: wazuh.agent
+  src: git+https://github.com/wazuh/wazuh-ansible
+  scm: git

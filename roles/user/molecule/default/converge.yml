@@ -1,0 +1,12 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: true
+
+  pre_tasks:
+    - name: '[Pre] Update APT cache.'
+      apt: update_cache=yes cache_valid_time=3600
+      when: not ansible_check_mode
+
+  roles:
+    - name: user

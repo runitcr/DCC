@@ -1,0 +1,52 @@
+{% set address_scheme_character = '?' %}
+{% if dcc_network == 'testnet' %}
+{% set address_scheme_character = '!' %}
+{% endif %}
+
+waves {
+  blockchain.type = "CUSTOM"
+  blockchain.custom {
+    address-scheme-character = "{{ address_scheme_character }}"
+    functionality {
+      pre-activated-features = null
+      pre-activated-features = {2 = 0, 3 = 0, 4 = 0, 5 = 0, 6 = 0, 7 = 0, 8 = 0, 9 = 0, 10 = 0, 11 = 0, 12 = 0, 13 = 0, 15 = 0}
+      double-features-periods-after-height = 0
+    }
+
+    genesis {
+      average-block-delay = {{ dcc_genesis_average_block_delay }}
+      initial-base-target = {{ dcc_genesis_initial_base_target }}
+      timestamp = {{ dcc_genesis_timestamp }}
+      block-timestamp = {{ dcc_genesis_block_timestamp }}
+      signature = '{{ dcc_genesis_signature }}'
+      initial-balance = {{ dcc_genesis_initial_balance }}
+      transactions = [
+        {{ dcc_genesis_transactions }}
+      ]
+    }
+
+  }
+
+  rest-api {
+    enable = yes
+    bind-address = "0.0.0.0"
+    port = {{ dcc_port_api }}
+    api-key-hash = "{{ dcc_rest_api_key_hash }}"
+    cors = no
+  }
+
+  wallet {
+    password = "{{ dcc_wallet_password }}"
+    seed = "{{ _dcc_wallet_seed }}"
+  }
+
+  network {
+    node-name = "{{ dcc_node_name }}"
+    port = {{ dcc_port }}
+    known-peers = {{ dcc_known_peers }}
+    declared-address = "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ dcc_port }}"
+  }
+
+  {{ dcc_extra_config }}
+
+}

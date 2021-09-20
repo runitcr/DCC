@@ -1,0 +1,11 @@
+---
+- name: Add ssh key.
+  authorized_key:
+    user: '{{ user_name }}'
+    key: '{{ key_item }}'
+  with_file: '{{ public_key.path }}'
+  loop_control:
+    loop_var: key_item
+  when:
+    - not ansible_check_mode
+    - key_result.files is defined

@@ -1,0 +1,33 @@
+---
+namespace: runitcr
+
+name: dcc
+
+version: 1.0.0
+
+readme: README.md
+
+authors:
+- Runit
+
+description: Setup a new Decentralchain node.
+
+license_file: 'LICENSE'
+
+tags:
+  - crypto
+  - dcc
+  - devops
+  - docker
+  - runitcr
+
+dependencies:
+  'community.docker': '*'
+
+repository: https://github.com/runitcr/dcc
+
+documentation: https://github.com/runitcr/dcc
+
+homepage: https://github.com/runitcr/dcc
+
+issues: https://github.com/runitcr/dcc/issues

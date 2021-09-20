@@ -1,0 +1,11 @@
+---
+- name: Deploy a new Decentralchain node.
+  become: true
+  gather_facts: true
+  hosts: all
+
+  roles:
+    - geerlingguy.docker
+    - role: geerlingguy.pip
+      pip_install_packages: [docker-py]
+    - runitcr.dcc.new

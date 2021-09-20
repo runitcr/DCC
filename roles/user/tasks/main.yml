@@ -1,0 +1,60 @@
+---
+- name: Update APT cache and packages (ignored if failed).
+  apt:
+    update_cache: true
+    cache_valid_time: 3600
+    upgrade: full
+  when:
+    - not ansible_check_mode
+    - user_name is defined
+    - user_name | length > 0
+  register: apt_cache_result
+  failed_when: "'Failed' in apt_cache_result.stderr"
+
+- name: Install required packages.
+  package:
+    name:
+      - byobu
+      - vim
+      - sudo
+      - htop
+  when: not ansible_check_mode
+
+- name: Make sure sudo group exists.
+  group:
+    name: sudo
+  when: not ansible_check_mode
+
+- name: Create required users.
+  user:
+    name: '{{ user_name }}'
+    shell: /bin/bash
+    home: '/home/{{ user_name }}'
+    groups: sudo
+    password: '*'
+  when:
+    - not ansible_check_mode
+    - user_name is defined
+    - user_name | length > 0
+
+- name: Get list of keys to add.
+  find:
+    paths: '{{ user_key_dir }}'
+    patterns: '*.pub'
+  register: key_result
+  delegate_to: localhost
+  become: false
+  when:
+    - not ansible_check_mode
+    - user_key_dir is defined
+    - user_key_dir | length > 0
+
+- name: Add ssh keys.
+  include_tasks: key.yml
+  loop: '{{ key_result.files }}'
+  loop_control:
+    loop_var: public_key
+  when:
+    - not ansible_check_mode
+    - user_key_dir is defined
+    - user_key_dir | length > 0

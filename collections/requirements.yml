@@ -1,0 +1,6 @@
+---
+collections:
+  - community.docker
+  - name: runitcr.dcc
+    src: git+https://github.com/runitcr/dcc
+    scm: git

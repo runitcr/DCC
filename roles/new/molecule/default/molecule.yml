@@ -1,0 +1,39 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: lxd
+lint: flake8
+platforms:
+  - name: ubuntu
+    source:
+      type: image
+      mode: pull
+      server: https://images.linuxcontainers.org
+      protocol: simplestreams
+      alias: ubuntu/focal/amd64
+    config:
+      limits.cpu: "2"
+provisioner:
+  name: ansible
+  playbooks:
+    create: ../create.yml
+    destroy: ../destroy.yml
+  lint:
+    name: ansible-lint
+scenario:
+  name: default
+  test_sequence:
+    - lint
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    - verify
+    - idempotence
+    - destroy
+verifier:
+  name: ansible
+  lint:
+    name: flake8
