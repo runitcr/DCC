@@ -2,4 +2,4 @@
 all:
   hosts:
     test.runitcr.com:
-      ansible_host: 65.21.223.52
+      ansible_host: 127.0.0.1
