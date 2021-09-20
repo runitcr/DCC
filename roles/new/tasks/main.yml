@@ -24,7 +24,7 @@
     version: '{{ dcc_repository_branch }}'
   when:
     - not ansible_check_mode
-    - dcc_docker_image_build | bool
+    - dcc_docker_image_build
   changed_when: "'molecule-idempotence-notest' not in ansible_skip_tags"
 
 - name: Compile Docker image.
@@ -33,7 +33,7 @@
     chdir: /tmp/DCC
   when:
     - not ansible_check_mode
-    - dcc_docker_image_build | bool
+    - dcc_docker_image_build
   changed_when: "'molecule-idempotence-notest' not in ansible_skip_tags"
 
 - name: Build Docker image.
@@ -44,7 +44,7 @@
     source: build
   when:
     - not ansible_check_mode
-    - dcc_docker_image_build | bool
+    - not dcc_docker_image_build
 
 - name: Pull Docker image.
   docker_image:
@@ -52,7 +52,7 @@
     source: pull
   when:
     - not ansible_check_mode
-    - dcc_docker_image_build | bool == false
+    - not dcc_docker_image_build
 
 - name: Create directories for Docker volumes (waves-config, waves-data).
   file:
