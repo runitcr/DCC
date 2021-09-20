@@ -1,0 +1,18 @@
+---
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Execute tests.
+      run: sudo bash -H -c 'apt update && apt install -y python3-pip rsync snapd wget && snap install core && snap install core && snap install lxd && lxc storage create default dir source=/var/snap/lxd/common/lxd/storage-pools/default && wget https://gitlab.com/-/snippets/2172358/raw/main/lxd-init-preseed && cat lxc-init-preseed | lxd init --preseed && pip install --upgrade Jinja2 && pip install ansible cryptography flake8 molecule-lxd voluptuous yamllint && mkdir -p ./ansible_collections/runitcr/dcc && rsync -av ./ ./ansible_collections/runitcr/dcc --exclude ./ansible_collections && cd ./ansible_collections/runitcr/dcc && ansible-galaxy install -r requirements.yml && ansible-test sanity && cd ./roles/new && molecule test'
