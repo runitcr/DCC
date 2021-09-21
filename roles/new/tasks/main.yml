@@ -7,7 +7,7 @@
 - name: Generate random wallet seed.
   set_fact:
     _dcc_wallet_seed:
-      "{{ lookup('password', '/dev/null chars={{ _dcc_base58_chars }} length=60') }}"
+      "{{ lookup('password', '/dev/null chars='{{ _dcc_base58_chars }}' length=60') }}"
 
 - name: Set wallet seed value.
   set_fact:
