@@ -19,7 +19,7 @@ their default values (*./defaults/main.yml*):
 # If build 'false' image is pulled from Dockerhub using dcc_docker_image_name.
 dcc_docker_image_build: true
 dcc_docker_image_name: 'runitcr/dcc'
-dcc_repository: https://github.com/runitsolutions/DCC-node.git
+dcc_repository: https://github.com/runitsolutions/DCC.git
 dcc_repository_branch: 'docker-image'
 # If wallet seed empty one is randomly generated.
 dcc_wallet_seed: ''
