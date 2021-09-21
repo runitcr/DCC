@@ -10,7 +10,6 @@
 
     - name: '[Pre] Rewrites variables for testing.'
       set_fact:
-        dcc_repository_branch: 'docker-image'
         pip_install_packages: [docker-py]
 
   roles:
