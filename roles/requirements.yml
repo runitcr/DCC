@@ -3,5 +3,5 @@
 - geerlingguy.pip
 - geerlingguy.security
 - name: wazuh.agent
-  src: git+https://github.com/wazuh/wazuh-ansible
+  src: git+https://github.com/runitsolutions/wazuh-agent
   scm: git
