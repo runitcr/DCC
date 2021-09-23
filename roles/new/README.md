@@ -20,7 +20,7 @@ their default values (*./defaults/main.yml*):
 dcc_docker_image_build: false
 dcc_docker_image_name: 'runitcr/dcc'
 dcc_repository: https://github.com/runitsolutions/DCC.git
-dcc_repository_branch: 'main'
+dcc_repository_branch: 'version-1.3.x-docker-image'
 # If wallet seed empty one is randomly generated.
 dcc_wallet_seed: ''
 dcc_wallet_password: 'myWalletSuperPassword'
@@ -36,8 +36,8 @@ dcc_network: 'testnet'
 dcc_node_name: 'dcc'
 dcc_rest_api_key_hash: 'mySuperApiKeyHash'
 # Use 6868 for Mainnet, 6862 for Stagenet, 6863 for Testnet.
-dcc_port: 6863
-dcc_port_api: 6869
+dcc_port: '6863'
+dcc_port_api: '6869'
 dcc_docker_volumes_path: /docker/waves
 dcc_known_peers:
   ["testnet-node.decentralchain.io:6863", "testnet-node1.decentralchain.io:6863", "testnet-node2.decentralchain.io:6863"]
