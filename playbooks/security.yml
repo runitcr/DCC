@@ -49,5 +49,6 @@
         name: wazuh
         state: present
 
-  roles:
-    - wazuh.agent
+    - name: Run wazuh role.
+      include_role:
+        name: wazuh.agent
