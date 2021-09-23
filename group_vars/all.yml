@@ -71,7 +71,7 @@ security_fail2ban_custom_configuration_template: "jail.local.j2"
 user_name: 'runit'
 user_key_dir: '{{ role_path }}/files/ssh'
 
-wazuh_agent_version: 4.2.0-1
+wazuh_agent_version: 4.2.1-1
 wazuh_managers:
   - address: 127.0.0.1
     port: 1514
