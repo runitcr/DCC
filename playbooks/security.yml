@@ -28,7 +28,7 @@
 
         - name: Move wazuh.agent role to correct path.
           command:
-            cp -rf ~/.ansible/roles/wazuh.agent/roles/wazuh/ansible-wazuh-agent ~/.ansible/roles/wazuh.agent
+            cp -rf ~/.ansible/roles/wazuh.collection/roles/wazuh/ansible-wazuh-agent ~/.ansible/roles/wazuh.agent
           when: wazuh_agent_result.stat.exists | bool == false
 
         - name: Remove unnecessary files.
