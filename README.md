@@ -245,13 +245,13 @@ cd DCC
 Compile Docker image for testnet:
 
 ```
-./build-with-docker.sh Testnet
+./build-with-docker.sh
 ```
 
 Build Docker image:
 
 ```
-docker build -t runitcr/dcc WAVES_NETWORK=testnet docker
+docker build -t runitcr/dcc docker
 ```
 
 Run Docker image:
