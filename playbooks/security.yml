@@ -14,31 +14,6 @@
   hosts: all
 
   pre_tasks:
-    - name: Fixes Wazuh agent role path.
-      block:
-        - name: Verify if role already installed.
-          stat:
-            path:  ~/.ansible/roles/wazuh.agent/handlers
-          register: wazuh_agent_result
-
-        - name: Rename wazuh.agent to wazuh.collection.
-          command:
-            mv ~/.ansible/roles/wazuh.agent ~/.ansible/roles/wazuh.collection
-          when: wazuh_agent_result.stat.exists | bool == false
-
-        - name: Move wazuh.agent role to correct path.
-          command:
-            cp -rf ~/.ansible/roles/wazuh.collection/roles/wazuh/ansible-wazuh-agent ~/.ansible/roles/wazuh.agent
-          when: wazuh_agent_result.stat.exists | bool == false
-
-        - name: Remove unnecessary files.
-          file:
-            state: absent
-            path: ~/.ansible/roles/wazuh.collection
-          when: wazuh_agent_result.stat.exists | bool == false
-      delegate_to: localhost
-      become: false
-
     - name: Ensure wazuh group exists.
       group:
         name: wazuh
@@ -49,6 +24,5 @@
         name: wazuh
         state: present
 
-    - name: Run wazuh role.
-      include_role:
-        name: wazuh.agent
+  roles:
+    - wazuh.agent
