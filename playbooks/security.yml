@@ -11,7 +11,7 @@
 - name: Installs Wazuh agent.
   become: true
   gather_facts: true
-  hosts: security
+  hosts: all
 
   pre_tasks:
     - name: Fixes Wazuh agent role path.
