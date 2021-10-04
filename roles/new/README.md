@@ -54,7 +54,9 @@ dcc_genesis_transactions: |
     {recipient = ""31ZibNeNgp45VgNDNZMjqPuCjqk5xCtTBo2"", amount = 5000000000000000}
 dcc_extra_config: |
   extensions += "com.wavesplatform.events.BlockchainUpdates"
-  grpc.host = "127.0.0.1"
+  extensions += "com.wavesplatform.dex.grpc.integration.DEXExtension"
+  grpc.host = "0.0.0.0"
+  dex.grpc.integration.host = "0.0.0.0"
 ```
 
 ## License
