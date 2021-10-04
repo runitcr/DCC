@@ -23,7 +23,7 @@ dcc_port: '6863'
 dcc_port_api: '6869'
 dcc_docker_volumes_path: /docker/waves
 dcc_known_peers:
-  ["testnet-node.decentralchain.io:6863", "testnet-node1.decentralchain.io:6863", "testnet-node2.decentralchain.io:6863"]
+  '["testnet-node.decentralchain.io:6863", "testnet-node1.decentralchain.io:6863", "testnet-node2.decentralchain.io:6863"]'
 dcc_config_template: 'waves.conf.j2'
 dcc_genesis_average_block_delay: '60s'
 dcc_genesis_initial_base_target: 1656
