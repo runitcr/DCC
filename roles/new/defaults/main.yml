@@ -26,11 +26,11 @@ dcc_known_peers:
   '["testnet-node.decentralchain.io:6863", "testnet-node1.decentralchain.io:6863", "testnet-node2.decentralchain.io:6863"]'
 dcc_config_template: 'waves.conf.j2'
 dcc_genesis_average_block_delay: '60s'
-dcc_genesis_initial_base_target: 1656
-dcc_genesis_timestamp: 1626792946167
+dcc_genesis_initial_base_target: 87
+dcc_genesis_timestamp: 1
 dcc_genesis_block_timestamp: '{{ dcc_genesis_timestamp }}'
 dcc_genesis_signature:
-  '3o8pqCkFtUCyGQNqik8ZWBns7AwBdtLabPVqnbRLneq4ZEfxNYnCpPfwMXpyrN3UpXQ8YSWUhkgvKgJaewaA1Th'
+  '3k7jW4J97iJ3Q1obDFFSfzywfvPG4Lg7R8tWgk9yXN2NJt9HUUPKvXuuLNyh8jvBMrJcRUe4grV6rR5BgizmpY22'
 dcc_genesis_initial_balance: 10000000000000000
 dcc_genesis_transactions: |
     {recipient = "31ZuVWB9frppJNyBaeFyhF3xGLdfVLPsiC", amount = 5000000000000000},
