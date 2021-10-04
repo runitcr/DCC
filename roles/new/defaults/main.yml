@@ -26,8 +26,8 @@ dcc_known_peers:
   ["testnet-node.decentralchain.io:6863", "testnet-node1.decentralchain.io:6863", "testnet-node2.decentralchain.io:6863"]
 dcc_config_template: 'waves.conf.j2'
 dcc_genesis_average_block_delay: '60s'
-dcc_genesis_initial_base_target: 87
-dcc_genesis_timestamp: 1
+dcc_genesis_initial_base_target: 1656
+dcc_genesis_timestamp: 1626792946167
 dcc_genesis_block_timestamp: '{{ dcc_genesis_timestamp }}'
 dcc_genesis_signature:
   '3o8pqCkFtUCyGQNqik8ZWBns7AwBdtLabPVqnbRLneq4ZEfxNYnCpPfwMXpyrN3UpXQ8YSWUhkgvKgJaewaA1Th'
@@ -37,6 +37,4 @@ dcc_genesis_transactions: |
     {recipient = ""31ZibNeNgp45VgNDNZMjqPuCjqk5xCtTBo2"", amount = 5000000000000000}
 dcc_extra_config: |
   extensions += "com.wavesplatform.events.BlockchainUpdates"
-  extensions += "com.wavesplatform.dex.grpc.integration.DEXExtension"
   grpc.host = "127.0.0.1"
-  dex.grpc.integration.host = "127.0.0.1"
