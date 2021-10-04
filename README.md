@@ -260,6 +260,22 @@ Run Docker image:
 docker run -v ~/docker/waves/waves-data:/var/lib/waves -v ~/docker/waves/waves-config:/etc/waves -p 6870:6870 -p 6868:6868 -e JAVA_OPTS="-Dwaves.network.declared-address=0.0.0.0:6868 -Dwaves.network.node-name=-my-testnet-node -Dwaves.rest-api.api-key-hash=6nSftY1F5kurz23yLrT1r9YJpiEveBLEa9RB1SCChiqv -Dwaves.rest-api.bind-address=0.0.0.0 -Dwaves.rest-api.port=6870" -e WAVES_WALLET_SEED="TBXHUUcVx2n3Rgszpu5MCybRaR86JGmqCWp7XKh7czU57ox5dgjdX4K4" -e WAVES_WALLET_PASSWORD=myWalletSuperPassword -e WAVES_NETWORK=testnet -ti runitcr/dcc
 ```
 
+#### Uploading to Dockerhub
+
+If you wish to push the image to Dockerhub follow next steps.
+
+Login into Dockerhub:
+
+```
+docker login
+```
+
+Push the image to Dockerhub:
+
+```
+docker push runitcr/dcc:latest
+```
+
 ### Using Ansible Vault
 
 To encrypt a single variable value run:
