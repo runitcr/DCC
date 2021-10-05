@@ -20,7 +20,7 @@ their default values (*./defaults/main.yml*):
 dcc_docker_image_build: false
 dcc_docker_image_name: 'runitcr/dcc'
 dcc_repository: https://github.com/runitsolutions/DCC.git
-dcc_repository_branch: 'version-1.3.x-docker-image'
+dcc_repository_branch: 'version-1.3.5-docker-image'
 # If wallet seed empty one is randomly generated.
 dcc_wallet_seed: ''
 dcc_wallet_password: 'myWalletSuperPassword'
@@ -54,7 +54,6 @@ dcc_genesis_transactions: |
     {recipient = ""31ZibNeNgp45VgNDNZMjqPuCjqk5xCtTBo2"", amount = 5000000000000000}
 dcc_extra_config: |
   extensions += "com.wavesplatform.events.BlockchainUpdates"
-  extensions += "com.wavesplatform.dex.grpc.integration.DEXExtension"
   grpc.host = "0.0.0.0"
   dex.grpc.integration.host = "0.0.0.0"
 ```
