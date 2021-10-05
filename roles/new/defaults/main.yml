@@ -36,7 +36,6 @@ dcc_genesis_transactions: |
     {recipient = "31ZuVWB9frppJNyBaeFyhF3xGLdfVLPsiC", amount = 5000000000000000},
     {recipient = ""31ZibNeNgp45VgNDNZMjqPuCjqk5xCtTBo2"", amount = 5000000000000000}
 dcc_extra_config: |
-dcc_extra_config: |
   extensions += "com.wavesplatform.events.BlockchainUpdates"
   extensions += "com.wavesplatform.dex.grpc.integration.DEXExtension"
   grpc.host = "0.0.0.0"
