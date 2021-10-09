@@ -1,0 +1,16 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  vars_files: ../../defaults/main.yml
+
+  tasks:
+    - name: '[Verify] Get services status.'
+      service_facts:
+      register: services_state
+      
+    - name: '[Verify] Verifies docker service is running.'
+      debug:
+        msg: 'Docker service is running'
+      failed_when:
+        services_state.ansible_facts.services.docker.state != 'running'

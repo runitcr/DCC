@@ -3,6 +3,13 @@
   set_fact:
     _dcc_base58_chars:
       '1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,J,K,L,M,N,P,Q,R,S,T,U,V,W,X,Y,Z,a,b,c,d,e,f,g,h,i,j,k,m,n,o,p,q,r,s,t,u,v,w,x,y,z'
+    _docker_image_repository: '{{ docker_image_repository }}'
+    _docker_image_repository_branch: '{{ docker_image_repository_branch }}'
+    _docker_image_name: '{{ docker_image_name }}'
+    _dockerhub_image_pull: '{{ dockerhub_image_pull }}'
+    _dockerhub_user: '{{ dockerhub_user }}'
+    _dockerhub_password: '{{ dockerhub_password }}'
+    _dockerhub_email: '{{ dockerhub_mail }}'
 
 - name: Generate random wallet seed.
   set_fact:
@@ -16,43 +23,17 @@
     - dcc_wallet_seed is defined
     - dcc_wallet_seed | length > 0
 
-- name: Clone Waves repository.
-  git:
-    repo: '{{ dcc_repository }}'
-    dest: /tmp/DCC
-    single_branch: true
-    version: '{{ dcc_repository_branch }}'
-  when:
-    - not ansible_check_mode
-    - dcc_docker_image_build
-  changed_when: "'molecule-idempotence-notest' not in ansible_skip_tags"
-
-- name: Compile Docker image.
-  command: ./build-with-docker.sh
-  args:
-    chdir: /tmp/DCC
-  when:
-    - not ansible_check_mode
-    - dcc_docker_image_build
-  changed_when: "'molecule-idempotence-notest' not in ansible_skip_tags"
-
-- name: Build Docker image.
-  docker_image:
-    build:
-      path: /tmp/DCC/docker
-    name: '{{ dcc_docker_image_name }}'
-    source: build
-  when:
-    - not ansible_check_mode
-    - dcc_docker_image_build
-
-- name: Pull Docker image.
-  docker_image:
-    name: '{{ dcc_docker_image_name }}'
-    source: pull
-  when:
-    - not ansible_check_mode
-    - not dcc_docker_image_build
+- name: Setup Docker image.
+  include_role:
+    name: image
+  vars:
+    docker_image_repository: '{{ _docker_image_repository }}'
+    docker_image_repository_branch: '{{ _docker_image_repository_branch }}'
+    docker_image_name: '{{ _docker_image_name }}'
+    dockerhub_image_pull: '{{ _dockerhub_image_pull }}'
+    dockerhub_user: '{{ _dockerhub_user }}'
+    dockerhub_password: '{{ _dockerhub_password }}'
+    dockerhub_email: '{{ _dockerhub_mail }}'
 
 - name: Create directories for Docker volumes (waves-config, waves-data).
   file:
@@ -80,7 +61,7 @@
   docker_container:
     name: 'dcc'
     hostname: 'dcc'
-    image: '{{ dcc_docker_image_name }}'
+    image: '{{ docker_image_name }}'
     state: started
     restart_policy: always
     env:

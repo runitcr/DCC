@@ -1,0 +1,17 @@
+---
+- name: Create
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  no_log: false
+
+  tasks:
+    - name: '[Create] Create Molecule LXC instances.'
+      command: >-
+        lxc launch '{{ item.source.alias }}' '{{ item.name }}'
+        -c security.nesting=true -c security.privileged=true
+      loop: '{{ molecule_yml.platforms }}'
+
+    - name: '[Create] Wait for the container to start.'
+      pause:
+        seconds: 15
