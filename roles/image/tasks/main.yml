@@ -3,7 +3,7 @@
   stat:
     path: /tmp/doker_image_tmp
   register: docker_image_tmp_result
-  
+
 - name: Remove folder /tmp/docker_image_tmp.
   file:
     path: /tmp/docker_image_tmp
@@ -38,18 +38,18 @@
         source: build
 
     - block:
-      - name: Log into DockerHub.
-        docker_login:
-          username: '{{ dockerhub_user }}'
-          password: '{{ dockerhub_password }}'
-          email: '{{ dockerhub_mail }}'
+        - name: Log into DockerHub.
+          docker_login:
+            username: '{{ dockerhub_user }}'
+            password: '{{ dockerhub_password }}'
+            email: '{{ dockerhub_mail }}'
 
-      - name: Push image to Dockerhub.
-        docker_image:
-          name: '{{ docker_image_name }}'
-          repository: '{{ docker_image_name }}'
-          push: true
-          source: local
+        - name: Push image to Dockerhub.
+          docker_image:
+            name: '{{ docker_image_name }}'
+            repository: '{{ docker_image_name }}'
+            push: true
+            source: local
       when: dockerhub_image_push | bool
   when: >
     not ansible_check_mode and
