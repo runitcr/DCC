@@ -49,11 +49,13 @@
             repository: '{{ docker_image_name }}'
             push: true
             source: local
-      when: dockerhub_image_push | bool
-  when: >
-    not ansible_check_mode and
-    (dockerhub_image_pull is not defined
-    or dockerhub_image_pull | bool == false)
+      when:
+        - dockerhub_image_push is defined
+        - dockerhub_image_push | bool
+  when:
+    - not ansible_check_mode
+    - docker_image_build is defined
+    - docker_image_build | bool
 
 - name: Pull image from Dockerhub.
   docker_image:
