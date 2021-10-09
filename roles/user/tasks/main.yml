@@ -37,6 +37,20 @@
     - user_name is defined
     - user_name | length > 0
 
+- name: Verify if file /home/{{ user_name }}/.ssh/authorized_keys exists.
+  stat:
+    path: /home/{{ user_name }}/.ssh/authorized_keys
+  register: authorized_keys_result
+
+- name: Remove file /home/{{ user_name }}/.ssh/authorized_keys.
+  file:
+    path:  /home/{{ user_name }}/.ssh/authorized_keys
+    state: absent
+  when:
+    - not ansible_check_mode
+    - authorized_keys_result.stat.exists | bool
+  changed_when: "'molecule-idempotence-notest' not in ansible_skip_tags"
+
 - name: Get list of keys to add.
   find:
     paths: '{{ user_key_dir }}'
