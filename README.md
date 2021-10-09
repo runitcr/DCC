@@ -57,6 +57,8 @@ List of included playbooks and how to use them.
 
 ### Ansible
 
+- [ansible.posix](https://docs.ansible.com/ansible/latest/collections/ansible/posix/index.html).
+- [community.docker](https://docs.ansible.com/ansible/latest/collections/community/docker/index.html).
 - [geerlingguy.docker](https://github.com/geerlingguy/ansible-role-docker).
 - [geerlingguy.pip](https://github.com/geerlingguy/ansible-role-pip).
 - [geerlingguy.security](https://github.com/geerlingguy/ansible-role-security).
