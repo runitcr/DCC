@@ -18,7 +18,7 @@ their default values (*./defaults/main.yml*):
 ```
 docker_image_name: 'runitcr/dcc'
 docker_image_repository: https://github.com/runitsolutions/DCC.git
-docker_image_repository_branch: 'version-1.3.5-docker-image'
+docker_image_repository_branch: 'version-1.3.5'
 # If true image will only be pulled from Dockerhub and not compiled.
 dockerhub_image_pull: false
 dockerhub_user: 'runitcr'

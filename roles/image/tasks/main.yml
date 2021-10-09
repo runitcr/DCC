@@ -8,7 +8,6 @@
   file:
     path: /tmp/docker_image_tmp
     state: absent
-    force: true
   when:
     - not ansible_check_mode
     - docker_image_tmp_result.stat.exists | bool

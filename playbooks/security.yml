@@ -8,6 +8,20 @@
     - runitcr.dcc.user
     - geerlingguy.security
 
+  tasks:
+    - name: Verifies if file /root/.ssh/authorized_keys exists.
+      stat:
+        path: /root/.ssh/authorized_keys
+      register: authorized_keys_result
+      when: not ansible_check_mode
+
+    - name: Deletes /root/.ssh/authorized_keys file.
+      file:
+        path: /root/.ssh/authorized_keys
+      when:
+        - not ansible_check_mode
+        - authorized_keys_result.stat.exists | bool
+
 - name: Installs Wazuh agent.
   become: true
   gather_facts: true
@@ -18,16 +32,19 @@
       apt:
         name: gnupg
         state: present
+      when: not ansible_check_mode
 
     - name: Ensure wazuh group exists.
       group:
         name: wazuh
         state: present
+      when: not ansible_check_mode
 
     - name: Ensure wazuh user exists.
       user:
         name: wazuh
         state: present
+      when: not ansible_check_mode
 
   roles:
     - wazuh.agent
