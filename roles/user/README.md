@@ -18,6 +18,7 @@ their default values (*./defaults/main.yml*):
 ```
 user_key_dir: '{{ role_path }}/files/ssh'
 user_name: 'runit'
+user_delete_authorized_keys: false
 ```
 
 ## License

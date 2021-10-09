@@ -9,3 +9,4 @@
   when:
     - not ansible_check_mode
     - key_result.files is defined
+  changed_when: "'molecule-idempotence-notest' not in ansible_skip_tags"

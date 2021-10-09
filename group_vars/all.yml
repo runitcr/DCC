@@ -70,6 +70,7 @@ security_fail2ban_custom_configuration_template: "jail.local.j2"
 
 user_name: 'runit'
 user_key_dir: '{{ role_path }}/files/ssh'
+user_delete_authorized_keys: false
 
 wazuh_agent_version: 4.2.1-1
 wazuh_managers:
