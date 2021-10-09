@@ -3,12 +3,12 @@ namespace: runitcr
 
 name: dcc
 
-version: 1.0.36
+version: 1.0.37
 
 readme: README.md
 
 authors:
-- Runit
+- runit
 
 description: Setup a new Decentralchain node.
 
@@ -22,6 +22,7 @@ tags:
   - runitcr
 
 dependencies:
+  'ansible.posix': '*'
   'community.docker': '*'
 
 repository: https://github.com/runitcr/dcc
