@@ -41,6 +41,7 @@
   stat:
     path: /home/{{ user_name }}/.ssh/authorized_keys
   register: authorized_keys_result
+  when: user_delete_authorized_keys | bool
 
 - name: Remove file /home/{{ user_name }}/.ssh/authorized_keys.
   file:
@@ -48,6 +49,7 @@
     state: absent
   when:
     - not ansible_check_mode
+    - user_delete_authorized_keys | bool
     - authorized_keys_result.stat.exists | bool
   changed_when: "'molecule-idempotence-notest' not in ansible_skip_tags"
 
