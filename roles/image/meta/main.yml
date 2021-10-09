@@ -1,0 +1,31 @@
+---
+galaxy_info:
+  author: runitcr
+  description: Pull or build a new docker image and upload it to Dockerhub.
+  company: Runitcr.
+
+  issue_tracker_url: https://github.com/runitcr/dcc/issues
+
+  license: MIT.
+
+  min_ansible_version: 2.10
+
+  platforms:
+    - name: Debian
+      versions:
+        - bullseye
+    - name: Ubuntu
+      versions:
+        - focal
+
+  galaxy_tags:
+    - crypto
+    - dcc
+    - devops
+    - docker
+    - runitcr
+
+  dependencies:
+    - geerlingguy.docker
+    - role: geerlingguy.pip
+      pip_install_packages: [docker-py]

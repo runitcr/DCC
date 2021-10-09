@@ -1,57 +1,12 @@
 ---
 - name: Creates a new DCC Docker image and uploads it to Dockerhub.
-  become: false
+  become: true
   connection: local 
   gather_facts: true
   hosts: localhost
-  vars_files:
-    '{{ playbook_dir | dirname }}/group_vars/all.yml'
 
   roles:
     - geerlingguy.docker
-    - geerlingguy.pip
-
-  tasks:
-    - name: Remove folder /tmp/DCC.
-      file:
-        path: /tmp/DCC
-        state: absent
-      when: not ansible_check_mode
-      changed_when: "'molecule-idempotence-notest' not in ansible_skip_tags"
-
-    - name: Clone Waves repository.
-      git:
-        repo: '{{ dcc_repository }}'
-        dest: /tmp/DCC
-        single_branch: true
-        version: '{{ dcc_repository_branch }}'
-      when: not ansible_check_mode
-      changed_when: "'molecule-idempotence-notest' not in ansible_skip_tags"
-
-    - name: Compile Docker image.
-      command: ./build-with-docker.sh
-      args:
-        chdir: /tmp/DCC
-      when: not ansible_check_mode
-      changed_when: "'molecule-idempotence-notest' not in ansible_skip_tags"
-
-    - name: Build Docker image.
-      docker_image:
-        build:
-          path: /tmp/DCC/docker
-        name: '{{ dcc_docker_image_name }}'
-        source: build
-      when: not ansible_check_mode
-
-    - name: Log into DockerHub.
-      docker_login:
-        username: '{{ dockerhub_user }}'
-        password: '{{ dockerhub_password }}'
-        email: '{{ dockerhub_mail }}'
-
-    - name: Push image to Dockerhub.
-      docker_image:
-        name: '{{ dcc_docker_image_name }}'
-        repository: '{{ dcc_docker_image_name }}'
-        push: true
-        source: local
+    - role: geerlingguy.pip
+      pip_install_packages: [docker-py]
+    - runitcr.dcc.image
