@@ -67,7 +67,10 @@ List of included playbooks and how to use them.
 ### Python
 
 - [ansible](https://pypi.org/project/ansible).
+- [cryptography](https://pypi.org/project/cryptography).
+- [docker](https://pypi.org/project/docker).
 - [flake8](https://pypi.org/project/flake8).
+- [molecule-lxd](https://pypi.org/project/molecule-lxd).
 - [voluptuous](https://pypi.org/project/voluptuous).
 - [yamllint](https://pypi.org/project/yamllint).
 
@@ -212,6 +215,12 @@ To execute sanity tests run:
 
 ```
 ansible-test sanity
+```
+
+To execute integration tests run:
+
+```
+ansible-test integration --docker ubuntu2004
 ```
 
 ### Running Molecule tests
