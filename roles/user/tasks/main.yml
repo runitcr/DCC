@@ -45,7 +45,7 @@
 
 - name: Remove file /home/{{ user_name }}/.ssh/authorized_keys.
   file:
-    path:  /home/{{ user_name }}/.ssh/authorized_keys
+    path: /home/{{ user_name }}/.ssh/authorized_keys
     state: absent
   when:
     - not ansible_check_mode

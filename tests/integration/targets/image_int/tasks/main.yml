@@ -1,0 +1,22 @@
+---
+- name: Install dependency collections.
+  command: ansible-galaxy collection install '{{ item }}'
+  loop:
+    - community.docker
+
+- name: Install dependency roles.
+  command: ansible-galaxy install '{{ item }}'
+  loop:
+    - geerlingguy.docker
+    - geerlingguy.pip
+
+- name: Executes image playbook.
+  include_role:
+    name: '{{ item }}'
+  loop:
+    - geerlingguy.pip
+    - image
+  vars:
+    docker_image_build: false
+    dockerhub_image_pull: false
+    pip_install_packages: [docker-py]
