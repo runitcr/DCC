@@ -49,6 +49,7 @@ List of included playbooks and how to use them.
 
 | Name | Description | Command |
 | --- | --- | --- |
+| [cleanup](playbooks/cleanup.yml) | Cleanup a Decentralchain node. | `ansible-playbook runitcr.dcc.cleanup \`<br>`-i  ~/.ansible/collections/ansible_collections/runitcr/dcc/inventory.yml \`<br>`-l test.runitcr.com \`<br>`-e ansible_python_interpreter=/usr/bin/python3` |
 | [image](playbooks/image.yml) | Builds a Decentralchain node image and push it to Dockerhub. | `ansible-playbook runitcr.dcc.image \`<br>`--ask-become-pass \`<br>`-e dockerhub_image_push=true  \`<br>`-e dockerhub_password='mySuperDockerhubPass' \`<br>`-e ansible_python_interpreter=/usr/bin/python3` |
 | [new](playbooks/new.yml) | Deploys a new Decentralchain node. | `ansible-playbook runitcr.dcc.new \`<br>`-i  ~/.ansible/collections/ansible_collections/runitcr/dcc/inventory.yml \`<br>`-l test.runitcr.com \`<br>`-e ansible_python_interpreter=/usr/bin/python3` |
 | [security](playbooks/security.yml) | Applies server hardening. Must be runned twice **on first run** to correctly install wazuh.agent role. | **First Run**<br>----------------<br>`ANSIBLE_REMOTE_PORT=22 ANSIBLE_REMOTE_USER=root ansible-playbook runitcr.dcc.security \`<br>`-i  ~/.ansible/collections/ansible_collections/runitcr/dcc/inventory.yml \`<br>`-l test.runitcr.com \`<br>`-e user_key_dir=/home/user/.ssh \`<br>`-e ansible_python_interpreter=/usr/bin/python3`<br>**All**<br>----------------<br>`ansible-playbook runitcr.dcc.security \`<br>`-i  ~/.ansible/collections/ansible_collections/runitcr/dcc/inventory.yml \`<br>`-l test.runitcr.com \`<br>`-e user_key_dir=/home/user/.ssh \`<br>`-e ansible_python_interpreter=/usr/bin/python3` |
@@ -76,7 +77,7 @@ List of included playbooks and how to use them.
 
 ## Compatibility
 
-- Ansible >= 2.10.
+- Ansible >= 2.11.
 - Debian Bullseye.
 - Ubuntu Focal.
 - Python 3.

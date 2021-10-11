@@ -12,10 +12,12 @@
 
 - name: Executes image playbook.
   include_role:
-    name: '{{ item }}'
+    name: '{{ role_item }}'
   loop:
     - geerlingguy.pip
     - image
+  loop_control:
+    loop_var: role_item
   vars:
     docker_image_build: false
     dockerhub_image_pull: false

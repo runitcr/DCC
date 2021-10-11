@@ -4,7 +4,7 @@ Ansible role to pull or build a Docker image and optionally upload it to Dockerh
 
 For more information see [collection's README](../../README.md).
 
-## Índice
+## Index
 
 - [Variables](#variables)
 - [License](#license)

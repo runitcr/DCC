@@ -1,0 +1,9 @@
+---
+- name: Cleanup environments.
+  become: true
+  gather_facts: true
+  hosts: all
+  tags: cleanup
+
+  roles:
+    - runitcr.dcc.cleanup
