@@ -79,6 +79,6 @@
       - '{{ dcc_port_api }}:{{ dcc_port_api }}'
     volumes:
       - '{{ dcc_docker_volumes_path }}/waves-config/waves.conf:/etc/decentralchain/waves.conf'
-      - '{{ dcc_docker_volumes_path }}/waves-data/var/lib/decentralchain'
+      - '{{ dcc_docker_volumes_path }}/waves-data:/var/lib/decentralchain'
   changed_when: "'molecule-idempotence-notest' not in ansible_skip_tags"
   when: not ansible_check_mode
