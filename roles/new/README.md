@@ -4,7 +4,7 @@ Ansible role to deploy a new Decentralchain node.
 
 For more information see [collection's README](../../README.md).
 
-## Índice
+## Index
 
 - [Variables](#variables)
 - [License](#license)

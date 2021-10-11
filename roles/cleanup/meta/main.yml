@@ -1,8 +1,8 @@
 ---
 galaxy_info:
   author: runitcr
-  description: Setup a new Decentralchain node.
-  company: runitcr.
+  description: Ansible role to cleanup environments.
+  company: runitcr
 
   issue_tracker_url: https://github.com/runitcr/dcc/issues
 
@@ -13,7 +13,7 @@ galaxy_info:
   platforms:
     - name: Debian
       versions:
-        - bullseye
+        - buster
     - name: Ubuntu
       versions:
         - focal
@@ -24,8 +24,3 @@ galaxy_info:
     - devops
     - docker
     - runitcr
-
-  dependencies:
-    - geerlingguy.docker
-    - role: geerlingguy.pip
-      pip_install_packages: [docker-py]

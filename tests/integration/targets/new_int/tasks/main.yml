@@ -12,10 +12,12 @@
 
 - name: Executes new playbook.
   include_role:
-    name: '{{ item }}'
+    name: '{{ role_item }}'
   loop:
     - geerlingguy.pip
     - new
+  loop_control:
+    loop_var: role_item
   vars:
     docker_image_build: false
     dockerhub_image_pull: false

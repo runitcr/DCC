@@ -1,6 +1,13 @@
 ---
 authd_pass: 'mySuperAuthdPass'
 
+cleanup_custom_command:
+  - docker stop {{ dcc_node_name }}
+  - docker rm {{ dcc_node_name }}
+  - docker image rm {{ docker_image_name }}
+cleanup_file_path:
+  - /docker
+
 # If wallet seed empty one is randomly generated.
 dcc_wallet_seed: ''
 dcc_wallet_password: 'myWalletSuperPassword'

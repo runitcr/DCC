@@ -1,0 +1,138 @@
+---
+- name: Delete required cron jobs.
+  cron:
+    name: "{{ cron_item }}"
+    state: absent
+  loop: "{{ cleanup_crontab_names }}"
+  loop_control:
+    loop_var: cron_item
+  changed_when: "'molecule-idempotence-notest' not in ansible_skip_tags"
+  when:
+    - not ansible_check_mode
+    - cleanup_crontab_names is defined
+    - cleanup_crontab_names | length > 0
+
+- name: Delete required databases (ignored on fail).
+  mysql_db:
+    login_user: '{{ cleanup_db_user }}'
+    login_password: '{{ cleanup_db_password }}'
+    name: '{{ db_item }}'
+    state: absent
+  loop: '{{ cleanup_db_names }}'
+  loop_control:
+    loop_var: db_item
+  changed_when: "'molecule-idempotence-notest' not in ansible_skip_tags"
+  ignore_errors: true
+  when:
+    - not ansible_check_mode
+    - cleanup_db_names is defined
+    - cleanup_db_names | length > 0
+
+- name: Executes custom commands (ignored on fail).
+  command: '{{ custom_command_item }}'
+  loop: '{{ cleanup_custom_command }}'
+  loop_control:
+    loop_var: custom_command_item
+  when:
+    - not ansible_check_mode
+    - cleanup_custom_command is defined
+    - cleanup_custom_command | length > 0
+  ignore_errors: true
+
+- name: Verifies if Snap is installed.
+  package_facts:
+    manager: auto
+  register: packages_state
+
+- name: Uninstall required Snap packages.
+  snap:
+    name: '{{ snap_item }}'
+    state: absent
+  loop: '{{ cleanup_package_snap_uninstall }}'
+  loop_control:
+    loop_var: snap_item
+  when:
+    - not ansible_check_mode
+    - "'snapd' in packages_state.ansible_facts.packages"
+    - cleanup_package_snap_uninstall is defined
+    - cleanup_package_snap_uninstall | length > 0
+  async: 300
+  poll: 60
+
+- name: Delete required lines from specified files.
+  lineinfile:
+    path: '{{ line_item.path }}'
+    line: '{{ line_item.line }}'
+    state: absent
+  loop: '{{ cleanup_line_delete }}'
+  loop_control:
+    loop_var: line_item
+  when:
+    - not ansible_check_mode
+    - cleanup_line_delete is defined
+    - cleanup_line_delete | length > 0
+
+- name: Borra los archivos requeridos.
+  file:
+    path: '{{ file_item }}'
+    state: absent
+  loop: '{{ cleanup_file_path }}'
+  loop_control:
+    loop_var: file_item
+  changed_when: "'molecule-idempotence-notest' not in ansible_skip_tags"
+  when:
+    - not ansible_check_mode
+    - cleanup_file_path is defined
+    - cleanup_file_path | length > 0
+
+- name: Purge required APT packages.
+  apt:
+    pkg: '{{ cleanup_package_uninstall }}'
+    state: absent
+    purge: true
+  when:
+    - not ansible_check_mode
+    - cleanup_package_uninstall is defined
+    - cleanup_package_uninstall | length > 0
+
+- name: Execute apt autoremove.
+  apt:
+    autoremove: true
+    purge: true
+  when: not ansible_check_mode
+
+- name: Update APT cache.
+  apt:
+    cache_valid_time: 3600
+    update_cache: true
+  when: not ansible_check_mode
+
+- name: Reload required services.
+  service:
+    name: '{{ service_item }}'
+    state: reloaded
+  loop: '{{ cleanup_services_reload }}'
+  loop_control:
+    loop_var: service_item
+  when:
+    - not ansible_check_mode
+    - cleanup_services_reload is defined
+    - cleanup_services_reload | length > 0
+
+- name: Restart required services.
+  service:
+    name: '{{ service_item }}'
+    state: restarted
+  loop: '{{ cleanup_services_restart }}'
+  loop_control:
+    loop_var: service_item
+  when:
+    - not ansible_check_mode
+    - cleanup_services_restart is defined
+    - cleanup_services_restart | length > 0
+
+- name: Restart the system.
+  reboot:
+  when:
+    - not ansible_check_mode
+    - cleanup_reboot_os | bool
