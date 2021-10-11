@@ -4,7 +4,7 @@ Ansible role to handle users and ssh keys.
 
 For more information see [collection's README](../../README.md).
 
-## Índice
+## Index
 
 - [Variables](#variables)
 - [License](#license)
