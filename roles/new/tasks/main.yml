@@ -1,4 +1,16 @@
 ---
+- name: Update the system.
+  apt:
+    upgrade: true
+    update_cache: true
+  when: not ansible_check_mode
+
+- name: Install required packages.
+  apt:
+    name: curl
+    state: latest
+  when: not ansible_check_mode
+
 - name: Define convenience variables.
   set_fact:
     _dcc_base58_chars:
@@ -10,6 +22,23 @@
     _dockerhub_user: '{{ dockerhub_user }}'
     _dockerhub_password: '{{ dockerhub_password }}'
     _dockerhub_email: '{{ dockerhub_mail }}'
+
+- name: Request a hash with the given api key.
+  command: >-
+    curl -X POST "https://mainnet-node.decentralchain.io/utils/hash/secure"
+    -H "accept: application/json" -H "Content-Type: text/plain"
+    -d "{{ dcc_rest_api_key_hash }}"
+  register: api_key_hash_result
+  when: not ansible_check_mode
+  changed_when: "'molecule-idempotence-notest' not in ansible_skip_tags"
+
+- name: Convert the generated response in json to a dictionary.
+  set_fact:
+    api_key_hash_result: "{{ api_key_hash_result.stdout | from_json }}"
+
+- name: Put the generated hash into a variable.
+  set_fact:
+    _dcc_rest_api_key_hash: "{{ api_key_hash_result.hash }}"
 
 - name: Generate random wallet seed.
   set_fact:
