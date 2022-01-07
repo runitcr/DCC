@@ -7,7 +7,7 @@ dcc_heap_size: '2G'
 dcc_java_opts: >-
   -Dwaves.network.declared-address={{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ dcc_port }}
   -Dwaves.network.node-name={{ dcc_node_name }}
-  -Dwaves.rest-api.api-key-hash={{ dcc_rest_api_key_hash }}
+  -Dwaves.rest-api.api-key-hash={{ _dcc_rest_api_key_hash }}
   -Dwaves.rest-api.bind-address=0.0.0.0
   -Dwaves.rest-api.port={{ dcc_port_api }}
 dcc_network: 'testnet'
